@@ -88,7 +88,8 @@ section{padding:72px 0}
 .photo img{position:absolute;z-index:2;left:50%;bottom:4cqw;width:130%;height:auto;transform:translateX(-50%);-webkit-mask-image:linear-gradient(to bottom,#000 90%,transparent);mask-image:linear-gradient(to bottom,#000 90%,transparent)}
 .photo .mono{position:absolute;z-index:2;left:50%;top:58cqw;transform:translateX(-50%);font:700 4.5rem "Playfair Display",Georgia,serif;color:var(--accent)}
 .photo .badge{position:absolute;z-index:3;left:-3%;bottom:10cqw;display:flex;align-items:center;gap:8px;background:var(--surface);color:var(--ink);border-radius:12px;padding:8px 12px;font-weight:600;font-size:.72rem;white-space:nowrap;box-shadow:0 12px 30px -12px rgba(18,32,58,.35)}
-.photo .badge i{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--accent);color:var(--bg);font:700 .8rem/1 "DM Sans",system-ui,sans-serif;font-style:normal}
+.photo .badge i{display:grid;place-items:center;color:var(--accent);font-style:normal}
+.photo .badge i svg{width:22px;height:22px}
 @media (max-width:760px){.hero .wrap{grid-template-columns:1fr}.photo{order:-1}}
 
 /* ===== Pengalaman ===== */
@@ -99,21 +100,22 @@ section{padding:72px 0}
 .js-only{display:none}.js .js-only{display:flex}
 .count{color:var(--muted);font-size:.9rem;margin:0 0 12px}
 .alt{background:var(--surface)}
-.item{border-top:1px solid var(--line)}
-.item:last-child{border-bottom:1px solid var(--line)}
-.item h3 button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;background:none;border:0;color:inherit;font:inherit;padding:20px 0;cursor:default}
+#exp{display:grid;gap:16px}
+.item{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:border-color .3s,box-shadow .4s}
+.item:hover,.item.open{border-color:var(--accent)}
+.item.open{box-shadow:0 18px 40px -24px rgba(29,78,216,.45)}
+.item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--accent),var(--disc));transform:scaleY(0);transform-origin:top;transition:transform .6s cubic-bezier(.22,1,.36,1)}
+.item.open::before{transform:scaleY(1)}
+.item h3 button{position:relative;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;text-align:left;background:none;border:0;color:inherit;font:inherit;padding:22px 72px 22px 24px;cursor:default}
 .js .item h3 button{cursor:pointer}
+.item .plus{top:50%;margin-top:-16px}
+.item .pin>p:last-child{margin-bottom:24px}
 .ttl{display:flex;align-items:center;gap:16px;min-width:0}
 .ttl b{display:block;font-size:1.2rem;line-height:1.3}
 .ttl small{display:block;color:var(--muted);font-size:.95rem;font-weight:400}
 .tag{flex:none;background:var(--accent);color:var(--bg);border-radius:6px;padding:2px 10px;font-size:.8rem;font-weight:700}
 .tag.alt{background:var(--accent-soft);color:var(--accent)}
 .yr{color:var(--muted);font-weight:400;font-size:.95rem;white-space:nowrap;margin-left:auto}
-.item .chev{display:none;width:18px;height:18px;transition:transform .2s;flex:none}
-.js .item .chev{display:block}
-.item button[aria-expanded="true"] .chev{transform:rotate(180deg)}
-.panel{padding:0 0 24px;max-width:46em}
-.panel p{margin:0 0 12px;color:var(--muted)}
 .stack{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
 .stack li{background:var(--accent-soft);color:var(--ink);border-radius:4px;padding:2px 10px;font-size:.85rem;font-weight:500}
 
@@ -135,19 +137,19 @@ section{padding:72px 0}
 .plus{position:absolute;right:20px;top:24px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);transition:transform .5s cubic-bezier(.34,1.56,.64,1),background .3s,border-color .3s}
 .plus::before,.plus::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;border-radius:2px;background:var(--accent);transition:background .3s}
 .plus::after{transform:rotate(90deg)}
-.proj.open .plus{transform:rotate(135deg);background:var(--accent);border-color:var(--accent)}
-.proj.open .plus::before,.proj.open .plus::after{background:var(--bg)}
+.proj.open .plus,.item.open .plus{transform:rotate(135deg);background:var(--accent);border-color:var(--accent)}
+.proj.open .plus::before,.proj.open .plus::after,.item.open .plus::before,.item.open .plus::after{background:var(--bg)}
 .pbody{display:grid;grid-template-rows:1fr}
 .pin{overflow:hidden;min-height:0;padding:0 24px}
 .pin p{margin:0 0 16px;color:var(--muted)}
 .pin .stack{padding-bottom:24px}
 .stack li{transition:opacity .4s,transform .5s cubic-bezier(.34,1.56,.64,1)}
 .js .pbody{grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.22,1,.36,1)}
-.js .proj.open .pbody{grid-template-rows:1fr}
+.js .proj.open .pbody,.js .item.open .pbody{grid-template-rows:1fr}
 .js .pin>p{opacity:0;transform:translateY(14px);transition:opacity .4s,transform .5s}
-.js .proj.open .pin>p{opacity:1;transform:none;transition-delay:.15s}
+.js .proj.open .pin>p,.js .item.open .pin>p{opacity:1;transform:none;transition-delay:.15s}
 .js .pin .stack li{opacity:0;transform:translateY(10px) scale(.6)}
-.js .proj.open .pin .stack li{opacity:1;transform:none;transition-delay:calc(.28s + var(--i,0)*.06s)}
+.js .proj.open .pin .stack li,.js .item.open .pin .stack li{opacity:1;transform:none;transition-delay:calc(.28s + var(--i,0)*.06s)}
 
 /* ===== Keahlian: bar persentase ===== */
 .bars{display:grid;gap:22px;max-width:760px;margin:0 0 40px}
@@ -193,7 +195,7 @@ footer{padding:28px 0;color:var(--muted);font-size:.9rem;text-align:center}
   body{font-size:11pt}
   .nav,.skip,.filters,.count,.hero .btn,.contact .btn,.photo,.chev,.plus{display:none!important}
   .panel[hidden],.item[hidden]{display:block!important}
-  .pbody{grid-template-rows:1fr!important}
+  .pbody,.panel{grid-template-rows:1fr!important}
   .pin>p,.pin .stack li{opacity:1!important;transform:none!important}
   .reveal{opacity:1!important;transform:none!important}
   .bar i{width:var(--v)!important}
@@ -245,7 +247,7 @@ footer{padding:28px 0;color:var(--muted);font-size:.9rem;text-align:center}
         <!-- EDIT: simpan foto-profil.png di folder yang sama dengan index.html. Jika tanpa foto, hapus tag img dan hilangkan atribut hidden pada .mono -->
         <img src="foto-profil.png" width="300" height="375" alt="Foto Mutiara Shafa Callista" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
         <span class="mono" hidden aria-hidden="true">MC</span>
-        <span class="badge"><i aria-hidden="true">&lt;/&gt;</i>RPL Student · Web Development</span>
+        <span class="badge"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></i>RPL Student · Web Development</span>
       </div>
     </div>
   </div>
@@ -255,21 +257,23 @@ footer{padding:28px 0;color:var(--muted);font-size:.9rem;text-align:center}
 <section id="pengalaman" aria-labelledby="h-pengalaman">
   <div class="wrap">
     <h2 id="h-pengalaman" class="reveal">Pengalaman</h2>
-    <p class="lead reveal">Pengalaman kerja dan organisasi yang pernah saya jalani.</p>
+    <p class="lead reveal">Pengalaman kerja dan organisasi yang pernah saya jalani. Klik kartu untuk melihat detail.</p>
     <div id="exp">
       <div class="item reveal">
-        <h3><button type="button" aria-expanded="true" aria-controls="e1" id="x1"><span class="ttl"><span class="tag">PKL</span><span><b>Full Stack Developer</b><small>PT Otak Kanan · Surabaya</small></span></span><span class="yr">6 bulan</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></h3>
-        <div class="panel" id="e1" role="region" aria-labelledby="x1">
+        <h3><button type="button" aria-expanded="false" aria-controls="e1" id="x1"><span class="ttl"><span class="tag">PKL</span><span><b>Full Stack Developer</b><small>PT Otak Kanan · Surabaya</small></span></span><span class="yr">6 bulan</span><span class="plus" aria-hidden="true"></span></button></h3>
+        <div class="pbody" id="e1" role="region" aria-labelledby="x1"><div class="pin">
           <p>Menjalani Praktik Kerja Lapangan selama 6 bulan sebagai Full Stack Developer di PT Otak Kanan, Surabaya.</p>
+          <ul class="stack" aria-label="Ringkasan"><li>Full Stack Developer</li><li>6 bulan</li><li>Surabaya</li></ul>
           <!-- EDIT: tambahkan 2-3 hal konkret yang kamu kerjakan di PKL (fitur, teknologi, hasil dengan angka), hanya yang bisa kamu jelaskan saat wawancara -->
-        </div>
+        </div></div>
       </div>
       <div class="item reveal">
-        <h3><button type="button" aria-expanded="true" aria-controls="e2" id="x2"><span class="ttl"><span class="tag alt">Organisasi</span><span><b>Anggota OSIS</b><small>SMKN 2 Mojokerto <!-- EDIT: pastikan nama organisasinya benar --></small></span></span><span class="yr">2024 – 2026</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></h3>
-        <div class="panel" id="e2" role="region" aria-labelledby="x2">
+        <h3><button type="button" aria-expanded="false" aria-controls="e2" id="x2"><span class="ttl"><span class="tag alt">Organisasi</span><span><b>Anggota OSIS</b><small>SMKN 2 Mojokerto <!-- EDIT: pastikan nama organisasinya benar --></small></span></span><span class="yr">2024 – 2026</span><span class="plus" aria-hidden="true"></span></button></h3>
+        <div class="pbody" id="e2" role="region" aria-labelledby="x2"><div class="pin">
           <p>Aktif sebagai anggota OSIS selama dua periode, dari 2024 sampai 2026.</p>
+          <ul class="stack" aria-label="Ringkasan"><li>OSIS</li><li>2024 – 2026</li><li>SMKN 2 Mojokerto</li></ul>
           <!-- EDIT: tambahkan peran atau kegiatan yang kamu pegang di OSIS (misalnya seksi dan acara yang kamu tangani) -->
-        </div>
+        </div></div>
       </div>
     </div>
   </div>
@@ -346,8 +350,8 @@ footer{padding:28px 0;color:var(--muted);font-size:.9rem;text-align:center}
       <div class="skill reveal" data-pct="82" style="--v:82%"><div class="sk-top"><span>CSS</span><b class="pct">82%</b></div><div class="bar" role="progressbar" aria-label="CSS" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82"><i></i></div></div>
       <div class="skill reveal" data-pct="78" style="--v:78%"><div class="sk-top"><span>PHP</span><b class="pct">78%</b></div><div class="bar" role="progressbar" aria-label="PHP" aria-valuemin="0" aria-valuemax="100" aria-valuenow="78"><i></i></div></div>
       <div class="skill reveal" data-pct="80" style="--v:80%"><div class="sk-top"><span>Database MySQL</span><b class="pct">80%</b></div><div class="bar" role="progressbar" aria-label="Database MySQL" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80"><i></i></div></div>
-      <div class="skill reveal" data-pct="76" style="--v:76%"><div class="sk-top"><span>Framework Laravel</span><b class="pct">76%</b></div><div class="bar" role="progressbar" aria-label="Framework Laravel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="76"><i></i></div></div>
-      <div class="skill reveal" data-pct="72" style="--v:72%"><div class="sk-top"><span>Deployment Website</span><b class="pct">72%</b></div><div class="bar" role="progressbar" aria-label="Deployment Website" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72"><i></i></div></div>
+      <div class="skill reveal" data-pct="80" style="--v:80%"><div class="sk-top"><span>Framework Laravel</span><b class="pct">80%</b></div><div class="bar" role="progressbar" aria-label="Framework Laravel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80"><i></i></div></div>
+      <div class="skill reveal" data-pct="66" style="--v:66%"><div class="sk-top"><span>Deployment Website</span><b class="pct">66%</b></div><div class="bar" role="progressbar" aria-label="Deployment Website" aria-valuemin="0" aria-valuemax="100" aria-valuenow="66"><i></i></div></div>
     </div>
     <div class="langs reveal"><div><b>Bahasa Indonesia</b><span>Aktif</span></div><div><b>Bahasa Inggris</b><span>Dasar</span></div></div>
   </div>
@@ -419,23 +423,19 @@ footer{padding:28px 0;color:var(--muted);font-size:.9rem;text-align:center}
   });
   renderTheme();
 
-  /* Accordion pengalaman */
-  var buttons=document.querySelectorAll('#exp .item h3 button');
-  function toggle(btn,open){
-    btn.setAttribute('aria-expanded',open);
-    document.getElementById(btn.getAttribute('aria-controls')).hidden=!open;
-  }
-  buttons.forEach(function(b,i){
-    toggle(b,i===0);
-    b.addEventListener('click',function(){toggle(b,b.getAttribute('aria-expanded')!=='true')});
+  /* Accordion pengalaman: semua tertutup sampai diklik */
+  document.querySelectorAll('#exp .item').forEach(function(it){
+    var b=it.querySelector('h3 button');
+    it.querySelectorAll('.stack li').forEach(function(li,i){li.style.setProperty('--i',i)});
+    b.addEventListener('click',function(){var o=!it.classList.contains('open');it.classList.toggle('open',o);b.setAttribute('aria-expanded',o)});
   });
 
-  /* Kartu proyek buka-tutup: kartu pertama terbuka, chip teknologi muncul satu per satu */
+  /* Kartu proyek buka-tutup: semua tertutup sampai diklik, chip teknologi muncul satu per satu */
   document.querySelectorAll('.proj').forEach(function(card,ci){
     card.querySelectorAll('.stack li').forEach(function(li,i){li.style.setProperty('--i',i)});
     var b=card.querySelector('.ptoggle');
     function set(o){card.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}
-    set(ci===0);
+    set(false);
     b.addEventListener('click',function(){set(!card.classList.contains('open'))});
   });
 
